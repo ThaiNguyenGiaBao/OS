@@ -1,10 +1,10 @@
-
-#include "./../include/timer.h"
+#include "timer.h"
 #include <stdio.h>
 #include <stdlib.h>
 
 static pthread_t _timer;
 
+//Link list node
 struct timer_id_container_t {
 	struct timer_id_t id;
 	struct timer_id_container_t * next;
@@ -14,10 +14,12 @@ static struct timer_id_container_t * dev_list = NULL;
 
 static uint64_t _time;
 
+// Flag indicating if the timer is running.
 static int timer_started = 0;
+//Flag to signal the timer thread to stop.
 static int timer_stop = 0;
 
-
+//Run in separate thread
 static void * timer_routine(void * args) {
 	while (!timer_stop) {
 		printf("Time slot %3lu\n", current_time());
@@ -58,6 +60,7 @@ static void * timer_routine(void * args) {
 	pthread_exit(args);
 }
 
+// signal the timer thread that it has finished its job and wait for the next time slot to begin
 void next_slot(struct timer_id_t * timer_id) {
 	/* Tell to timer that we have done our job in current slot */
 	pthread_mutex_lock(&timer_id->event_lock);
@@ -85,6 +88,7 @@ void start_timer() {
 	pthread_create(&_timer, NULL, timer_routine, NULL);
 }
 
+//allows a device to detach itself from the timer system before the timer thread acknowledges its completion in the current time slot.
 void detach_event(struct timer_id_t * event) {
 	pthread_mutex_lock(&event->event_lock);
 	event->fsh = 1;
@@ -92,6 +96,7 @@ void detach_event(struct timer_id_t * event) {
 	pthread_mutex_unlock(&event->event_lock);
 }
 
+//allows a device to register itself with the timer system
 struct timer_id_t * attach_event() {
 	if (timer_started) {
 		return NULL;
@@ -117,6 +122,8 @@ struct timer_id_t * attach_event() {
 	}
 }
 
+
+//stopping the timer thread and cleaning up the resources
 void stop_timer() {
 	timer_stop = 1;
 	pthread_join(_timer, NULL);

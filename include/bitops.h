@@ -5,8 +5,10 @@
 #endif /* CONFIG_64BIT */
 
 #define BITS_PER_BYTE           8
+//Calculates the ceiling division of n by d.
 #define DIV_ROUND_UP(n,d) (((n) + (d) - 1) / (d))
 
+//1U = 1 unsigned int
 #define BIT(nr)                 (1U << (nr))
 #define BIT_ULL(nr)             (1ULL << (nr))
 #define BIT_MASK(nr)            (1UL << ((nr) % BITS_PER_LONG))
@@ -14,6 +16,7 @@
 #define BIT_ULL_MASK(nr)        (1ULL << ((nr) % BITS_PER_LONG_LONG))
 #define BIT_ULL_WORD(nr)        ((nr) / BITS_PER_LONG_LONG)
 
+//Calculates the number of longs needed to hold nr bits.
 #define BITS_TO_LONGS(nr)       DIV_ROUND_UP(nr, BITS_PER_BYTE * sizeof(long))
 
 #define BIT_ULL_MASK(nr)        (1ULL << ((nr) % BITS_PER_LONG_LONG))
@@ -24,6 +27,7 @@
  * position @h. For example
  * GENMASK_ULL(39, 21) gives us the 64bit vector 0x000000ffffe00000.
  */
+//GENMASK(5,2) =0000000000111100
 #define GENMASK(h, l) \
 	(((~0U) << (l)) & (~0U >> (BITS_PER_LONG  - (h) - 1)))
 

@@ -3,6 +3,15 @@
     "*.py": "python",
     "os-mm.h": "c",
     "queue.h": "c",
-    "stdint.h": "c"
+    "stdint.h": "c",
+    "iostream": "cpp",
+    "bitset": "cpp",
+    "loader.h": "c",
+    "common.h": "c",
+    "stdio.h": "c",
+    "timer.h": "c",
+    "stdlib.h": "c",
+    "mem.h": "c",
+    "coroutine": "c"
   }
 }

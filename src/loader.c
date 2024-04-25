@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+//Stores the next available process ID (PID), starting from 1.
 static uint32_t avail_pid = 1;
 
 #define OPT_CALC	"calc"
@@ -28,6 +29,7 @@ static enum ins_opcode_t get_opcode(char * opt) {
 		exit(1);
 	}
 }
+
 
 struct pcb_t * load(const char * path) {
 	/* Create new PCB for the new process */

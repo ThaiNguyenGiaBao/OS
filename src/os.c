@@ -46,7 +46,7 @@ struct cpu_args {
 	int id;
 };
 
-
+//Simulate CPU core exe in multi-core system
 static void * cpu_routine(void * args) {
 	struct timer_id_t * timer_id = ((struct cpu_args*)args)->timer_id;
 	int id = ((struct cpu_args*)args)->id;
@@ -204,8 +204,12 @@ static void read_config(const char * path) {
 		ld_processes.path[i][0] = '\0';
 		strcat(ld_processes.path[i], "input/proc/");
 		char proc[100];
+
+//First 
 #ifdef MLQ_SCHED
+
 		fscanf(file, "%lu %s %lu\n", &ld_processes.start_time[i], proc, &ld_processes.prio[i]);
+	//	printf("----%ln + %s + %ln\n", &ld_processes.start_time[i], proc, &ld_processes.prio[i]);
 #else
 		fscanf(file, "%lu %s\n", &ld_processes.start_time[i], proc);
 #endif

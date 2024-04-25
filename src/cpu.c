@@ -28,6 +28,7 @@ int read(
 		uint32_t destination) { // Index of destination register
 	
 	BYTE data;
+	//regs[source] stores the base address
 	if (read_mem(proc->regs[source] + offset, proc,	&data)) {
 		proc->regs[destination] = data;
 		return 0;		
@@ -38,7 +39,7 @@ int read(
 
 int write(
 		struct pcb_t * proc, // Process executing the instruction
-		BYTE data, // Data to be wrttien into memory
+		BYTE data, // Data to be written into memory
 		uint32_t destination, // Index of destination register
 		uint32_t offset) { 	// Destination address =
 					// [destination] + [offset]

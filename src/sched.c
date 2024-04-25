@@ -13,6 +13,12 @@ static pthread_mutex_t queue_lock;
 static struct queue_t mlq_ready_queue[MAX_PRIO];
 #endif
 
+//slot[i]: the remaining CPU usage of queue i
+int slot[MAX_PRIO];
+
+// Return -1 if any queue in mlq is not empty, 
+// 		   0 if 
+//		   1 if ready_queue and 
 int queue_empty(void) {
 #ifdef MLQ_SCHED
 	unsigned long prio;
@@ -47,16 +53,29 @@ struct pcb_t * get_mlq_proc(void) {
 	/*TODO: get a process from PRIORITY [ready_queue].
 	 * Remember to use lock to protect the queue.
 	 */
-	proc = dequeue(&mlq_ready_queue[0]);
+	pthread_mutex_lock(&queue_lock);
+	for(int i = 0;i <MAX_PRIO;i++) {
+		if(empty(&mlq_ready_queue[i])|| slot[i] == 0) {
+			slot[i] = MAX_PRIO - i;
+		}
+		else {
+			proc = dequeue(&mlq_ready_queue[i]);
+			slot[i] --;
+			break;
+		}
+	}
+	pthread_mutex_unlock(&queue_lock);
 	return proc;	
 }
 
+//Put process to associated queue 
 void put_mlq_proc(struct pcb_t * proc) {
 	pthread_mutex_lock(&queue_lock);
 	enqueue(&mlq_ready_queue[proc->prio], proc);
 	pthread_mutex_unlock(&queue_lock);
 }
 
+//Similar to put_mlq_proc
 void add_mlq_proc(struct pcb_t * proc) {
 	pthread_mutex_lock(&queue_lock);
 	enqueue(&mlq_ready_queue[proc->prio], proc);
