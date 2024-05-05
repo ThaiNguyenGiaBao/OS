@@ -5,7 +5,9 @@
  */
 
 #include "mm.h"
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 /*
  *  MEMPHY_mv_csr - move MEMPHY cursor
@@ -82,7 +84,6 @@ int MEMPHY_seq_write(struct memphy_struct * mp, int addr, BYTE value)
 
    MEMPHY_mv_csr(mp, addr);
    mp->storage[addr] = value;
-
    return 0;
 }
 
@@ -155,14 +156,25 @@ int MEMPHY_get_freefp(struct memphy_struct *mp, int *retfpn)
    return 0;
 }
 
-int MEMPHY_dump(struct memphy_struct * mp)
+int MEMPHY_dump(struct memphy_struct *mp)
 {
-    /*TODO dump memphy contnt mp->storage 
-     *     for tracing the memory content
-     */
+/*TODO dump memphy contnt mp->storage
+ *     for tracing the memory content
+ */
 
-    return 0;
+   printf("===== PHYSICAL MEMORY DUMP =====\n");
+   for (int i = 0; i < mp->maxsz; ++i)
+   {
+      if (mp->storage[i] != 0)
+      {
+         printf("BYTE %08x: %d\n", i, mp->storage[i]);
+      }
+   }
+   printf("===== PHYSICAL MEMORY END-DUMP =====\n");
+   
+   return 0;
 }
+
 
 int MEMPHY_put_freefp(struct memphy_struct *mp, int fpn)
 {

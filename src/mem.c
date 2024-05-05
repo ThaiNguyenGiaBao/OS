@@ -44,7 +44,7 @@ static struct trans_table_t * get_trans_table(
 		struct page_table_t * page_table) { // first level table
 	
 	/* DO NOTHING HERE. This mem is obsoleted */
-
+	
 	int i;
 	for (i = 0; i < page_table->size; i++) {
 		// Enter your code here
