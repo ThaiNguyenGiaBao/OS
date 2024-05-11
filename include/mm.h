@@ -164,4 +164,12 @@ int print_list_vma(struct vm_area_struct *rg);
 
 int print_list_pgn(struct pgn_t *ip);
 int print_pgtbl(struct pcb_t *ip, uint32_t start, uint32_t end);
+
+
+
+#define TLB_SIZE           16    // size of TLB cache: 64KB
+#define PAGE_ENTRY_SIZE    2     // size of page entry: 4 Byte
+
+#define MAX_PAGES_TLB      (1 << (TLB_SIZE - PAGE_ENTRY_SIZE) ) 
+
 #endif

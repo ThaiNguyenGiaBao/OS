@@ -146,7 +146,7 @@ int __alloc(struct pcb_t *caller, int vmaid, int rgid, int size, int *alloc_addr
    //struct vm_area_struct *cur_vma = get_vma_by_num(caller->mm, vmaid);
 
   //Nếu cấp phát xong mà còn dư 1 ít thì nhét vào freerg_list 
-  if (cur_vma->sbrk < cur_vma->vm_end);
+  if (cur_vma->sbrk < cur_vma->vm_end)
   {
     struct vm_rg_struct *rg_free = malloc(sizeof(struct vm_rg_struct));
     rg_free->rg_start = cur_vma->sbrk;
